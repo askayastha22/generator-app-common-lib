@@ -9,14 +9,25 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const utils = require('./lib/utils')
-const ActionGenerator = require('./lib/ActionGenerator')
-const constants = require('./lib/constants')
-const discover = require('./lib/discover')
+const discover = require('../../lib/discover')
+const path = require('path')
 
-module.exports = {
-  utils,
-  constants,
-  ActionGenerator,
-  discover
-}
+describe('discover', () => {
+  const expected = {
+    addAction: {
+      assetCompute: {}
+    },
+    extension: {},
+    resource: [{
+      children: [{ name: 'image.png' }, { name: 'image1.png' }],
+      name: 'images'
+    },
+    { name: 'someResource.json' }
+    ]
+  }
+
+  test('it works', () => {
+    const templatesPath = path.resolve('./test/__fixtures__/templates')
+    expect(discover(templatesPath)).toEqual(expected)
+  })
+})
